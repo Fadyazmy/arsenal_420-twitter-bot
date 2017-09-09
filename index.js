@@ -10,7 +10,7 @@ var bot = new Twit({
   access_token: config.access_token,
   access_token_secret: config.access_token_secret,
   timeout_ms: 60*1000
-})
+});
 
 // ###### Getting a stream of data
 first(chronJOB());
@@ -44,7 +44,7 @@ function startStream(team, supporter){
     // Get the tweet text, userID and twitter handle
     var tweet_text = tweet.text;
     var userName = tweet.user.screen_name;
-    var statusID = ""+ tweet.id_str;
+    var statusID = tweet.id_str;
     var limit = 3; // control variable
 
     // if user's tweet is somewhat positive
