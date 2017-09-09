@@ -19,16 +19,52 @@ first(chronJOB());
 //First one
 function first ()
 {
-    startStream("arsenal", false, startStream("tottenham", true));
+    startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
 }
 function chronJOB(){
 // Then after every x mins repeat
-    every('10m').do(function() {
-        console.log("CHRON JOB");
-        startStream("arsenal", false, startStream("tottenham", true));
+    every('15m').do(function() {
+        startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
+    });
 
+    // Follow users at the end of day
+    every('1d').do(function{
+        followBack();
     });
 }
+
+
+function followBack(){
+        bot.get('followers/list'
+            , { screen_name: 'arsenal_420', count:200}
+            , (err, data, response) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("Following back twitter friends");
+                    data.users.forEach(user => {
+                    // If the user is following the bot (only) then we gotta follow back
+                    if (user.connections.length == 1 && user.connections[1] == 'followed_by'){
+                        console.log("Following @"+user.screen_name);
+                        followBackAccount(user.screen_name);
+                    }
+            })
+        }
+        });
+}
+
+function followBackAccount(screenName){
+    bot.post('friendships/create', {
+        screen_name: screenName
+    }, (err, data, response) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(data)
+        }
+    })
+}
+
 
 //
 function startStream(team, supporter){

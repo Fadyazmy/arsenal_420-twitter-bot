@@ -8,10 +8,7 @@ This will be fixed soon
 
 TODO:
 - Multi-threading
-    - Retweet + like (chelsea OR liverpool) fans
-    - Reply + like Arsenal fans 
     - Respond to retweets
-    - Follow back
     - Bulk following?
 - Remove suspension 
 - Figure out what you can do legally (lol)
