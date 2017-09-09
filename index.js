@@ -117,8 +117,4 @@ function likeTweet(BastardStatusID) {
   })
 }
 
-// Retweet positive tweets about Chelsea
 
-// bulk following
-
-// Followback
