@@ -1,4 +1,4 @@
-## Arsenal 420 Mate (Pre-alpha)
+# Arsenal 420 Mate (Pre-alpha)
 Your everyday high mate turning sour at your soccer club
 
 ```
