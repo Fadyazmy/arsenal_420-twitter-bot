@@ -1,5 +1,5 @@
 ## Arsenal 420 Buddy
-Your everyday high mate turning sour your soccer club
+Your everyday high mate turning sour at your soccer club
 
 ```
 The bot has been suspended for naughty behaviour ..
