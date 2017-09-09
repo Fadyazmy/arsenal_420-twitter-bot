@@ -17,7 +17,7 @@ TODO:
     - Remove suspension  
     - Figure out what you can do legally (lol)
 - Beta: 
-    - Respond to retweets with (custom markov algorithm?)
+    - Respond to retweets with (markov bot)
     - Bulk following?
 
 
