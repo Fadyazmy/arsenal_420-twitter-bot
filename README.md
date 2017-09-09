@@ -1,17 +1,19 @@
-## Arsenal 420 Buddy
+## Arsenal 420 Mate (Pre-alpha)
 Your everyday high mate turning sour at your soccer club
 
 ```
-The bot has been suspended for naughty behaviour ..
+The bot has been suspended for naughty behaviour ...
 This will be fixed soon
 ```
 
 TODO:
-- Multi-threading
+- Alpha: 
+    - Remove suspension  
+    - Figure out what you can do legally (lol)
+    - Soften the insults
+    - Include weed/yoda insults
+- Beta: 
     - Respond to retweets
     - Bulk following?
-- Remove suspension 
-- Figure out what you can do legally (lol)
-- Soften the insults
-- Include weed insults
+
 

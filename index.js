@@ -2,7 +2,11 @@ var Twit = require('twit');
 var request = require('request');
 var every = require('schedule').every;
 var analyze = require('Sentimental').analyze;
+var fs = require("fs");
 var config = require('./config');
+
+var jokes = fs.readFileSync("yo_mama_jokes.txt").toString().split("\n");
+
 
 var bot = new Twit({
   consumer_key: config.consumer_key,
