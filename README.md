@@ -1,4 +1,4 @@
-###Arsenal 420 Buddy
+## Arsenal 420 Buddy
 Your everyday high mate swearing at your favourite club
 
 ```
