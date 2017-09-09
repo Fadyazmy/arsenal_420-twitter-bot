@@ -12,8 +12,11 @@ var bot = new Twit({
   timeout_ms: 60*1000
 });
 
-// ###### Getting a stream of data
+
+// Where light begins
 first(chronJOB());
+
+
 
 
 //First one
