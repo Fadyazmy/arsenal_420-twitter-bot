@@ -3,7 +3,7 @@ Your everyday high mate turning sour at your soccer club
 
 ```
 The bot has been suspended for naughty behaviour ...
-This will be fixed soon
+To be fixed soon
 ```
 Features:
 - 
@@ -19,5 +19,7 @@ TODO:
 - Beta: 
     - Respond to retweets with (markov bot)
     - Bulk following?
+- Gamma: 
+    - Webpage with some interesting stats with D3.JS / REACTJS
 
 
