@@ -13,25 +13,22 @@ var bot = new Twit({
 })
 
 // ###### Getting a stream of data
+first(chronJOB());
+
 
 //First one
-startStream("arsenal", false
-            ,startStream("tottenham", true));
+function first ()
+{
+    startStream("arsenal", false, startStream("tottenham", true));
+}
+function chronJOB(){
+// Then after every x mins repeat
+    every('10m').do(function() {
+        console.log("CHRON JOB");
+        startStream("arsenal", false, startStream("tottenham", true));
 
-// startStream("tottenham, chealse", true);
-
-
-//After the first
-every('15m').do(function() {
-  console.log("CHRON JOB");
-  if (Math.random() >.6){
-    console.log("ARSENAL SCOUTING \n");
-    startStream("arsenal", false);
-  } else {
-    console.log("MANUTD SCOUTING \n");
-    startStream("manutd"), false;
-  }
-});
+    });
+}
 
 //
 function startStream(team, supporter){
@@ -44,14 +41,17 @@ function startStream(team, supporter){
   var numTweets = 0;
 
   stream.on('tweet', function(tweet){
-    tweet_text = tweet.text
+    // Get the tweet text, userID and twitter handle
+    var tweet_text = tweet.text;
+    var userName = tweet.user.screen_name;
+    var statusID = ""+ tweet.id_str;
+    var limit = 3; // control variable
 
-    if (JSON.stringify(analyze(tweet_text).score) > 3 && numTweets <3 && !supporter){
-      console.log("INSULT wip \n");
-      // Get the userID and twitter handle
-      var userName = tweet.user.screen_name;
-      var statusID = ""+ tweet.id_str;
-      console.log("USERID: " + tweet.user.screen_name + "statusID"+ statusID);
+    // if user's tweet is somewhat positive
+    if (JSON.stringify(analyze(tweet_text).score) >3 && numTweets <limit && !supporter){
+      console.log("INSULTing \n");
+
+      console.log("USER: @" + tweet.user.screen_name + " & statusID:"+ statusID);
 
       // Get insult
       request(('https://insult.mattbas.org/api/en/insult.txt?who='+team), function (error, response, body) {
@@ -60,16 +60,19 @@ function startStream(team, supporter){
       });
 
       numTweets ++;
-    } // if supporter (chelsea OR tottenham) retweet
-    else if (JSON.stringify(analyze(tweet_text).score) > 3 && numTweets <3 && supporter){
-      retweetBastard(statusID); // dirty work of
-      likeTweet(statusID); // like the status
+    } // if supporter (tottenham) retweet
+    else if (JSON.stringify(analyze(tweet_text).score) > 3 && numTweets <limit && supporter){
+      retweetBastard(statusID);
+
+      // like the status
+      likeTweet(statusID);
       numTweets ++;
     }
-    if (numTweets >= 14){
+    if (numTweets >= limit){
       stream.stop();
+      // reset tweet streak
       numTweets = 0;
-      console.log("STOPPED retweeting for TEAM: " + team) + "\n";
+      console.log("STOPPED retweeting for TEAM: " + team + "\n");
     }
   });
 }
@@ -81,7 +84,7 @@ function retweetBastard(satusID){
           if (err){
               console.log("ERROR WITH statusID:  "+satusID+ "\n" +  err);
           } else {
-                  console.log(data.text + " has been retweeted.");
+                  console.log("RETWEET: @"+data.user.screen_name+" \n" +data.text );
           }
       });
 }
@@ -95,7 +98,7 @@ function respondBastard(text, bastardStatusID){
     if (err){
       console.log(err);
     } else {
-      console.log("RETWEETED \n")
+      console.log("RESPOND: @"+data.user.screen_name+"\n"+ data.text)
 
     }
   })
@@ -109,7 +112,7 @@ function likeTweet(BastardStatusID) {
     if(err){
       console.log(err);
     }else {
-      console.log("LIKED: \n"+data.text);
+      console.log("LIKED: @"+data.user.screen_name+" \n"+data.text);
     }
   })
 }
