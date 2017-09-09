@@ -96,13 +96,20 @@ function startStream(team, supporter){
 
       console.log("USER: @" + tweet.user.screen_name + " & statusID:"+ statusID);
 
+/** INSULTS
+        request(('https://insult.mattbas.org/api/en/insult.txt?who='+team), function (error, response, body) {
+            respondToBastard(("@"+userName+" "+body),statusID); // dirty work of
+            likeTweet(statusID); // like the status
+        });
+**/
+
         // Get yo mama joke
-        var body = jokes[Math.floor(Math.random() * jokes.length)]
-        respondBastard(("@"+userName+" "+body),statusID); // dirty work of
+        var body = jokes[Math.floor(Math.random() * jokes.length)];
+        respondToBastard(("@"+userName+" "+body),statusID);
         likeTweet(statusID); // like the status
 
       numTweets ++;
-    } // if supporter (tottenham) retweet
+    } // if user supporting (tottenham) retweet
     else if (JSON.stringify(analyze(tweet_text).score) > 3 && numTweets <limit && supporter){
       retweetBastard(statusID);
 
@@ -133,7 +140,7 @@ function retweetBastard(satusID){
 
 
 // Respond to someone
-function respondBastard(text, bastardStatusID){
+function respondToBastard(text, bastardStatusID){
   bot.post('statuses/update', {status: text //text
   , in_reply_to_status_id: bastardStatusID}
   , function (err, data, response){
