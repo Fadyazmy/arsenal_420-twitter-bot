@@ -96,11 +96,10 @@ function startStream(team, supporter){
 
       console.log("USER: @" + tweet.user.screen_name + " & statusID:"+ statusID);
 
-      // Get insult
-      request(('https://insult.mattbas.org/api/en/insult.txt?who='+team), function (error, response, body) {
+        // Get yo mama joke
+        var body = jokes[Math.floor(Math.random() * jokes.length)]
         respondBastard(("@"+userName+" "+body),statusID); // dirty work of
         likeTweet(statusID); // like the status
-      });
 
       numTweets ++;
     } // if supporter (tottenham) retweet
