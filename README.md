@@ -7,7 +7,7 @@ To be fixed soon
 ```
 Features:
 - 
-- Respond to arsenal fans with yo mama jokes, (using sentiment analysis to find fans)
+- Respond to arsenal fans with yo mama jokes (previously insults), (using sentiment analysis to find fans)
 - Retweet and like arsenal arch nemesis tweets (tottenham, chelsea and liverpool)
 - Follow back followers
 
