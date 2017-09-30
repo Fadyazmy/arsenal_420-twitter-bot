@@ -43,7 +43,7 @@ module.exports = {
             if (err){
                 console.log("ERROR WITH statusID:  "+satusID+ "\n" +  err);
             } else {
-                console.log("RETWEET: @"+data.user.screen_name+" \n" +data.text );
+                console.log("RETWEET\n- user: @"+data.user.screen_name+" \n- text: " +data.text );
             }
         });
     },
@@ -54,7 +54,7 @@ module.exports = {
                 if (err){
                     console.log(err);
                 } else {
-                    console.log("Insulting: @"+data.user.screen_name+"\n"+ data.text)
+                    console.log("INSULTING\n- user: @"+data.user.screen_name+"\n- text: "+ data.text)
 
                 }
             })
@@ -65,7 +65,7 @@ module.exports = {
                 if(err){
                     console.log(err);
                 }else {
-                    console.log("LIKED: @"+data.user.screen_name+" \n"+data.text);
+                    console.log("LIKED\n- user: @"+data.user.screen_name+" \n- text: "+data.text);
                 }
             })
     }

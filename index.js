@@ -6,7 +6,8 @@ var fs = require("fs");
 var config = require('./config');
 var behaviour = require('./behaviour');
 var jokes = fs.readFileSync("yo_mama_jokes.txt").toString().split("\n");
-
+var express = require('express');
+var app = express();
 
 var bot = new Twit({
   consumer_key: config.consumer_key,
@@ -32,6 +33,7 @@ function start()
 function chronJOB(){
     console.log("##### Chron timer initiated #### \n");
     // Then after every x mins repeat
+    // TODO: Print time
     every('15m').do(function() {
         // startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
         startStream("arsenal");
@@ -66,7 +68,7 @@ function startStream(team){
     // Responding to team fans/insulting fans
     if (JSON.stringify(tweetSentiment >3 && numTweets <limit )) {
         var body = jokes[Math.floor(Math.random() * jokes.length)];
-        console.log("INSULTING\n- USER: @" + tweet.user.screen_name +"\n- +ve score: "+ tweetSentiment+"\n- text: " + tweet_text);
+        console.log("INSULTING\n- USER: @" + tweet.user.screen_name +"\n- +ve score: "+ tweetSentiment+"\n- text: " + tweet_text+"\n");
 
 /** INSULTS
         request(('https://insult.mattbas.org/api/en/insult.txt?who='+team), function (error, response, body) {
@@ -96,7 +98,9 @@ function startStream(team){
 }
 
 
-
+app.listen(3000, function () {
+    console.log("\n####### SERVER RUNNING\n")
+});
 
 
 
