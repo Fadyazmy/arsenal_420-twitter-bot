@@ -5,7 +5,7 @@
 var Twit = require('twit');
 var request = require('request');
 var fs = require("fs");
-var config = require('./config');
+// var config = require('./config');
 var behaviour = require('./behaviour');
 
 
