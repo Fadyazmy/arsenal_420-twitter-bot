@@ -98,7 +98,7 @@ function startStream(team){
 }
 
 
-app.listen(3000, function () {
+app.listen(3000 || process.env.PORT, function () {
     console.log("\n####### SERVER RUNNING\n")
 });
 
