@@ -4,7 +4,7 @@ var every = require('schedule').every;
 var analyze = require('Sentimental').analyze;
 var fs = require("fs");
 var config = require('./config');
-
+var behaviour = require('./behaviour');
 var jokes = fs.readFileSync("yo_mama_jokes.txt").toString().split("\n");
 
 
@@ -18,64 +18,36 @@ var bot = new Twit({
 
 
 // Where light begins
-first(chronJOB());
+start(chronJOB());
 
 
 
 
 //First one
-function first ()
+function start()
 {
-    startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
+    startStream("arsenal");
 }
+
 function chronJOB(){
-// Then after every x mins repeat
+    console.log("##### Chron timer initiated #### \n");
+    // Then after every x mins repeat
     every('15m').do(function() {
-        startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
+        // startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
+        startStream("arsenal");
+
     });
 
-    // Follow users at the end of day
-    every('1d').do(function{
-        followBack();
+    // Follow back users at the end of day (if any)
+    every('1d').do(function () {
+        behaviour.followBackDaily();
     });
-}
-
-
-function followBack(){
-        bot.get('followers/list'
-            , { screen_name: 'arsenal_420', count:200}
-            , (err, data, response) => {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log("Following back twitter friends");
-                    data.users.forEach(user => {
-                    // If the user is following the bot (only) then we gotta follow back
-                    if (user.connections.length == 1 && user.connections[1] == 'followed_by'){
-                        console.log("Following @"+user.screen_name);
-                        followBackAccount(user.screen_name);
-                    }
-            })
-        }
-        });
-}
-
-function followBackAccount(screenName){
-    bot.post('friendships/create', {
-        screen_name: screenName
-    }, (err, data, response) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log(data)
-        }
-    })
 }
 
 
 //
-function startStream(team, supporter){
-  console.log("STREAMING for: "+team+"\n");
+function startStream(team){
+  console.log("BEGIN STREAMING for: "+team+"\n");
 
   var stream = bot.stream('statuses/filter',{
     track: team
@@ -88,13 +60,13 @@ function startStream(team, supporter){
     var tweet_text = tweet.text;
     var userName = tweet.user.screen_name;
     var statusID = tweet.id_str;
-    var limit = 3; // control variable
+    var limit = 2; // control variable
+    var tweetSentiment = analyze(tweet_text).score;
 
-    // if user's tweet is somewhat positive
-    if (JSON.stringify(analyze(tweet_text).score) >3 && numTweets <limit && !supporter){
-      console.log("INSULTing \n");
-
-      console.log("USER: @" + tweet.user.screen_name + " & statusID:"+ statusID);
+    // Responding to team fans/insulting fans
+    if (JSON.stringify(tweetSentiment >3 && numTweets <limit )) {
+        var body = jokes[Math.floor(Math.random() * jokes.length)];
+        console.log("INSULTING\n- USER: @" + tweet.user.screen_name +"\n- +ve score: "+ tweetSentiment+"\n- text: " + tweet_text);
 
 /** INSULTS
         request(('https://insult.mattbas.org/api/en/insult.txt?who='+team), function (error, response, body) {
@@ -102,20 +74,17 @@ function startStream(team, supporter){
             likeTweet(statusID); // like the status
         });
 **/
+        // Like the tweet, and throw a yo mama joke at them
+        behaviour.likeTweet(statusID); // like the status
+        behaviour.tweetUser(("@"+userName+" "+body),statusID); // TODO: change this to reply
+        numTweets ++;
+    } // if user supporting rival retweet
+    else if (JSON.stringify(tweetSentiment < 3 && numTweets <limit )){
 
-        // Get yo mama joke
-        var body = jokes[Math.floor(Math.random() * jokes.length)];
-        respondToBastard(("@"+userName+" "+body),statusID);
-        likeTweet(statusID); // like the status
-
-      numTweets ++;
-    } // if user supporting (tottenham) retweet
-    else if (JSON.stringify(analyze(tweet_text).score) > 3 && numTweets <limit && supporter){
-      retweetBastard(statusID);
-
-      // like the status
-      likeTweet(statusID);
-      numTweets ++;
+        // like the tweet and retweet
+        behaviour.likeTweet(statusID);
+        behaviour.retweetUser(statusID);
+        numTweets ++;
     }
     if (numTweets >= limit){
       stream.stop();
@@ -127,43 +96,9 @@ function startStream(team, supporter){
 }
 
 
-// Retweeting to someone
-function retweetBastard(satusID){
-  bot.post('statuses/retweet/:id', { id: satusID }, function (err, data, response) {
-          if (err){
-              console.log("ERROR WITH statusID:  "+satusID+ "\n" +  err);
-          } else {
-                  console.log("RETWEET: @"+data.user.screen_name+" \n" +data.text );
-          }
-      });
-}
 
 
-// Respond to someone
-function respondToBastard(text, bastardStatusID){
-  bot.post('statuses/update', {status: text //text
-  , in_reply_to_status_id: bastardStatusID}
-  , function (err, data, response){
-    if (err){
-      console.log(err);
-    } else {
-      console.log("RESPOND: @"+data.user.screen_name+"\n"+ data.text)
-
-    }
-  })
-}
 
 
-//Like a tweet or to unlike 'favorites/destroy'
-function likeTweet(BastardStatusID) {
-  bot.post('favorites/create', {id: BastardStatusID}
-  , function (err, data, response){
-    if(err){
-      console.log(err);
-    }else {
-      console.log("LIKED: @"+data.user.screen_name+" \n"+data.text);
-    }
-  })
-}
 
 
