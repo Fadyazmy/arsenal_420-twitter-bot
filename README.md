@@ -14,11 +14,10 @@ Features:
 TODO:
 - 
 - Alpha: 
-    - Remove suspension  
-    - Figure out what you can do legally (lol)
+    - Run on raspberry pi - can't use free servers (server sleep/restrictions) 
 - Beta: 
     - Respond to retweets with (markov bot)
-    - Bulk following?
+    - Behave based on current premier league 
 - Gamma: 
     - Webpage with some interesting stats with D3.JS / REACTJS
 

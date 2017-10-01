@@ -10,7 +10,7 @@ var express = require('express');
 var app = express();
 
 var bot = new Twit({
-  // consumer_key: process.env.TWITTER_consumer_key,//config.consumer_key,
+  consumer_key: process.env.TWITTER_consumer_key,//config.consumer_key,
   consumer_secret: process.env.TWITTER_consumer_secret, //config.consumer_secret,
   access_token: process.env.TWITTER_access_token,//config.access_token,
   access_token_secret: process.env.TWITTER_access_token_secret, //config.access_token_secret,
