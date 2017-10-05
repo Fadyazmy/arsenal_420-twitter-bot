@@ -5,15 +5,19 @@
 var Twit = require('twit');
 var request = require('request');
 var fs = require("fs");
-// var config = require('./config');
+var config = require('./config');
 var behaviour = require('./behaviour');
 
 
 var bot = new Twit({
-    consumer_key: process.env.TWITTER_consumer_key,//config.consumer_key,
-    consumer_secret: process.env.TWITTER_consumer_secret, //config.consumer_secret,
-    access_token: process.env.TWITTER_access_token,//config.access_token,
-    access_token_secret: process.env.TWITTER_access_token_secret, //config.access_token_secret,
+    // consumer_key: process.env.TWITTER_consumer_key,
+    consumer_key: config.consumer_key,
+    // consumer_secret: process.env.TWITTER_consumer_secret,
+    consumer_secret: config.consumer_secret,
+    // access_token: process.env.TWITTER_access_token,
+    access_token: config.access_token,
+    // access_token_secret: process.env.TWITTER_access_token_secret,
+    access_token_secret: config.access_token_secret,
     timeout_ms: 60*1000
 });
 

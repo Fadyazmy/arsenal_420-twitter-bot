@@ -3,19 +3,25 @@ var request = require('request');
 var every = require('schedule').every;
 var analyze = require('Sentimental').analyze;
 var fs = require("fs");
-// var config = require('./config');
+var config = require('./config');
 var behaviour = require('./behaviour');
 var jokes = fs.readFileSync("yo_mama_jokes.txt").toString().split("\n");
 var express = require('express');
+var yo_Mammma = require('yo-mamma').default;
 var app = express();
 
 var bot = new Twit({
-  consumer_key: process.env.TWITTER_consumer_key,//config.consumer_key,
-  consumer_secret: process.env.TWITTER_consumer_secret, //config.consumer_secret,
-  access_token: process.env.TWITTER_access_token,//config.access_token,
-  access_token_secret: process.env.TWITTER_access_token_secret, //config.access_token_secret,
-  timeout_ms: 60*1000
+    // consumer_key: process.env.TWITTER_consumer_key,
+    consumer_key: config.consumer_key,
+    // consumer_secret: process.env.TWITTER_consumer_secret,
+    consumer_secret: config.consumer_secret,
+    // access_token: process.env.TWITTER_access_token,
+    access_token: config.access_token,
+    // access_token_secret: process.env.TWITTER_access_token_secret,
+    access_token_secret: config.access_token_secret,
+    timeout_ms: 60*1000
 });
+
 
 
 // Where light begins
@@ -33,7 +39,7 @@ function start()
 function chronJOB(){
     console.log("##### Chron timer initiated #### \n");
     // Then after every x mins repeat
-    // TODO: Print time
+    // TODO: Print time / maybe use time for when on server incase server fails/restarts
     every('15m').do(function() {
         // startStream("arsenal", false, startStream("tottenham, liverpool, chelsea ", true));
         startStream("arsenal");
@@ -67,7 +73,7 @@ function startStream(team){
 
     // Responding to team fans/insulting fans
     if (JSON.stringify(tweetSentiment >3 && numTweets <limit )) {
-        var body = jokes[Math.floor(Math.random() * jokes.length)];
+        var body = yo_Mammma();
         console.log("INSULTING\n- USER: @" + tweet.user.screen_name +"\n- +ve score: "+ tweetSentiment+"\n- text: " + tweet_text+"\n");
 
 /** INSULTS
