@@ -5,7 +5,6 @@ var analyze = require('Sentimental').analyze;
 var fs = require("fs");
 var config = require('./config');
 var behaviour = require('./behaviour');
-var jokes = fs.readFileSync("yo_mama_jokes.txt").toString().split("\n");
 var express = require('express');
 var yo_Mammma = require('yo-mamma').default;
 var app = express();
